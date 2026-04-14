@@ -17,7 +17,7 @@ export function createApp() {
   app.use(requestLogger);
 
   app.get('/health', (_req, res) => res.json({ status: 'ok' }));
-  app.use('/api/v1', apiRouter);
+  app.use('/', apiRouter);
 
   app.use(errorHandler);
 

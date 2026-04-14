@@ -24,7 +24,7 @@ npm run dev
 To run the test suite:
 
 ```sh
-npm test
+npm run test
 ```
 
 ---
@@ -45,11 +45,13 @@ npm test
 
 ## Tradeoffs
 
+`BookingSettled` event emission is not implemented. The spec mentions it in the context section but it does not appear in the five concrete requirements, and the constraints say no other services are needed. Wiring an outbound event without a real consumer or message bus would be noise rather than signal here — it is the first thing to add in production.
+
 SQLite is single-writer. This works cleanly for a background event processor but would not scale horizontally — Postgres would be the production choice.
 
 Events arrive over HTTP directly. In production this would sit behind a message queue so events survive service restarts and can be replayed.
 
-The mock gateway is intentionally minimal — one file, one endpoint, roughly 1 in 6 calls fail either immediately with a 500 or by holding the connection open until the client times out.
+The mock gateway is intentionally minimal — one file, one endpoint, roughly 15% of calls fail either immediately with a 500 or by holding the connection open until the client times out.
 
 ---
 
